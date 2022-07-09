@@ -1,6 +1,6 @@
 package net.shoaibkhan.accessibiltyplusextended.features;
 
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.minecraft.client.Minecraft;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
@@ -46,9 +46,9 @@ public class FeaturesWithThreadHandler {
 
 
 			// Durability Checker
-			if (!modInit.mainThreadMap.containsKey("durablity_thread_key")
+			if (!AccessibilityPlusExt.mainThreadMap.containsKey("durablity_thread_key")
 					&& Config.get(ConfigKeys.DURABILITY_CHECK_KEY.getKey())) {
-				modInit.mainThreadMap.put("durablity_thread_key", 5000);
+				AccessibilityPlusExt.mainThreadMap.put("durablity_thread_key", 5000);
 				if (durabilityThread.isAlive() && durabilityThread != null)
 					durabilityThread.interrupt();
 				durabilityThread = new DurabilityThread();

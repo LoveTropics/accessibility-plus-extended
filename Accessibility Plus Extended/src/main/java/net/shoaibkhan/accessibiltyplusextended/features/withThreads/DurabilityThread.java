@@ -5,7 +5,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 
@@ -37,7 +37,7 @@ public class DurabilityThread extends Thread {
 				String name = itemStack.getHoverName().getString();
 				if (itemStack.isDamageableItem()) {
 					String searchQuery = name + "\t" + itemStack;
-					if (modInit.lowDurabilityItems.contains(searchQuery))
+					if (AccessibilityPlusExt.lowDurabilityItems.contains(searchQuery))
 						break;
 					double maxDamage = itemStack.getMaxDamage();
 					double damage = itemStack.getDamageValue();
@@ -45,7 +45,7 @@ public class DurabilityThread extends Thread {
 					if (healthLeft <= threshold) {
 //						this.client.player.sendMessage(new LiteralText(name + " durability is low"), true);
 						NarratorPlus.narrate(I18n.get("narrate.apextended.durability.warn", name));
-						modInit.lowDurabilityItems.add(searchQuery);
+						AccessibilityPlusExt.lowDurabilityItems.add(searchQuery);
 					}
 				}
 			}

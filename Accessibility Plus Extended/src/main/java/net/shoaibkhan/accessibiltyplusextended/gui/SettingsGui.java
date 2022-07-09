@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 
 public class SettingsGui extends LightweightGuiDescription {
 	private LocalPlayer player;
@@ -46,10 +46,10 @@ public class SettingsGui extends LightweightGuiDescription {
 		doneButton.setOnClick(this::onDoneClick);
 		root.add(doneButton, 12, 7, 7, 1);
 
-		WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.settings"), modInit.colors("red", 100));
+		WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.settings"), AccessibilityPlusExt.colors("red", 100));
 		label.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		root.add(label, 0, 1, 21, 1);
-		WLabel fakeLabel = new WLabel(TextComponent.EMPTY, modInit.colors("red", 100));
+		WLabel fakeLabel = new WLabel(TextComponent.EMPTY, AccessibilityPlusExt.colors("red", 100));
 		fakeLabel.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		root.add(fakeLabel, 0, 8, 21, 1);
 
@@ -90,6 +90,6 @@ public class SettingsGui extends LightweightGuiDescription {
 
 	@Override
 	public void addPainters() {
-		this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(modInit.colors("lightgrey", 50)));
+		this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(AccessibilityPlusExt.colors("lightgrey", 50)));
 	}
 }

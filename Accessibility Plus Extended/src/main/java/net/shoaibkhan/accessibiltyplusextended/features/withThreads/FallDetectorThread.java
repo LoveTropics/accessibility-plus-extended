@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 
@@ -59,7 +59,7 @@ public class FallDetectorThread extends Thread {
 	private void checkBlock(BlockPos blockPos, Direction direction, int limit) {
 		if (client.player.isFallFlying())
 			return;
-		if (!modInit.mainThreadMap.containsKey("fall_detector_key")) {
+		if (!AccessibilityPlusExt.mainThreadMap.containsKey("fall_detector_key")) {
 			BlockState block = client.level.getBlockState(blockPos);
 			if (block.is(Blocks.VOID_AIR))
 				return;
@@ -67,8 +67,8 @@ public class FallDetectorThread extends Thread {
 			int posY = blockPos.getY();
 			int posZ = blockPos.getZ();
 
-			if (block.isAir() && !modInit.mainThreadMap.containsKey("fluid_detector_key")
-					&& !modInit.mainThreadMap.containsKey("fall_detector_key")) {
+			if (block.isAir() && !AccessibilityPlusExt.mainThreadMap.containsKey("fluid_detector_key")
+					&& !AccessibilityPlusExt.mainThreadMap.containsKey("fall_detector_key")) {
 				BlockState topBlock = client.level.getBlockState(new BlockPos(new Vec3(posX, posY + 1, posZ)));
 				if (topBlock.is(Blocks.VOID_AIR))
 					return;
@@ -84,8 +84,8 @@ public class FallDetectorThread extends Thread {
 					depthVal = 5;
 				}
 
-				if (depth >= depthVal && !modInit.mainThreadMap.containsKey("fall_detector_key")) {
-					modInit.mainThreadMap.put("fall_detector_key", 5000);
+				if (depth >= depthVal && !AccessibilityPlusExt.mainThreadMap.containsKey("fall_detector_key")) {
+					AccessibilityPlusExt.mainThreadMap.put("fall_detector_key", 5000);
 //					client.player.sendMessage(new LiteralText("warning Fall Detected"), true);
 					NarratorPlus.narrate(I18n.get("narrate.apextended.falldetector"));
 				}

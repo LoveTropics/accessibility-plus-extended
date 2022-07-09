@@ -8,16 +8,16 @@ public class CustomWait extends Thread {
 	public void run() {
 		while (running) {
 			try {
-				if (!modInit.mainThreadMap.isEmpty()) {
+				if (!AccessibilityPlusExt.mainThreadMap.isEmpty()) {
 					Map.Entry<String, Integer> toRemove = null;
-					for (Map.Entry<String, Integer> entry : modInit.mainThreadMap.entrySet()) {
+					for (Map.Entry<String, Integer> entry : AccessibilityPlusExt.mainThreadMap.entrySet()) {
 						entry.setValue(entry.getValue() - 1);
 						if (entry.getValue() <= 10) 
 							toRemove = entry;
 					}
 
 					if(toRemove != null)
-						modInit.mainThreadMap.remove(toRemove.getKey());
+						AccessibilityPlusExt.mainThreadMap.remove(toRemove.getKey());
 				}
 				Thread.sleep(1);
 			} catch (Exception e) {

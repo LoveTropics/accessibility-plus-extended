@@ -29,7 +29,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 import net.shoaibkhan.accessibiltyplusextended.features.POIHandler;
@@ -122,10 +122,10 @@ public class POIBlocks extends Thread {
             }
 
             if (Config.get(ConfigKeys.POI_FLUID_DETECTOR_Key.getKey())
-                    && !modInit.mainThreadMap.containsKey("fluid_detector_key")) {
+                    && !AccessibilityPlusExt.mainThreadMap.containsKey("fluid_detector_key")) {
                 int delay = POIHandler.getFluidDetectorDelay();
                 NarratorPlus.narrate(I18n.get("narrate.apextended.poiblock.warn"));
-                modInit.mainThreadMap.put("fluid_detector_key", delay);
+                AccessibilityPlusExt.mainThreadMap.put("fluid_detector_key", delay);
             }
         } else if (block instanceof OreBlock) {
             oreBlocks.put(diff, blockVec3dPos);
@@ -178,7 +178,7 @@ public class POIBlocks extends Thread {
             checkBlock(new BlockPos(new Vec3(posX, posY - 1, posZ)), val - 1); // Bottom Block
         }
 
-        if (playSound && !modInit.mainThreadMap.containsKey("sound+" + blockPos) && volume>0) {
+        if (playSound && !AccessibilityPlusExt.mainThreadMap.containsKey("sound+" + blockPos) && volume>0) {
 
             if (soundType.equalsIgnoreCase("ore"))
                 client.level.playLocalSound(new BlockPos(blockVec3dPos), SoundEvents.ITEM_PICKUP,
@@ -190,7 +190,7 @@ public class POIBlocks extends Thread {
                 client.level.playLocalSound(new BlockPos(blockVec3dPos), SoundEvents.NOTE_BLOCK_BANJO,
                         SoundSource.BLOCKS, volume, 0f, true);
 
-            modInit.mainThreadMap.put("sound+" + blockPos, delay);
+            AccessibilityPlusExt.mainThreadMap.put("sound+" + blockPos, delay);
         }
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.shoaibkhan.accessibiltyplusextended.features.withThreads.FallDetectorThread;
 
 public class FallDetectorGui extends LightweightGuiDescription {
@@ -38,10 +38,10 @@ public class FallDetectorGui extends LightweightGuiDescription {
     doneButton.setOnClick(this::onDoneClick);
     root.add(doneButton, 12, 5, 7, 1);
 
-    WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.falldetectorsettings"), modInit.colors("red", 100));
+    WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.falldetectorsettings"), AccessibilityPlusExt.colors("red", 100));
     label.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(label, 0, 1, 21, 1);
-    WLabel fakeLabel = new WLabel(TextComponent.EMPTY, modInit.colors("red", 100));
+    WLabel fakeLabel = new WLabel(TextComponent.EMPTY, AccessibilityPlusExt.colors("red", 100));
     fakeLabel.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(fakeLabel, 0, 6, 21, 1);
 
@@ -60,6 +60,6 @@ public class FallDetectorGui extends LightweightGuiDescription {
 
   @Override
   public void addPainters() {
-    this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(modInit.colors("lightgrey", 50)));
+    this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(AccessibilityPlusExt.colors("lightgrey", 50)));
   }
 }

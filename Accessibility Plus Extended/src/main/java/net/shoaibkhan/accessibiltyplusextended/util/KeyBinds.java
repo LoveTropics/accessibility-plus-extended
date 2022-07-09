@@ -1,6 +1,11 @@
 package net.shoaibkhan.accessibiltyplusextended.util;
 
+import java.util.Objects;
+
+import com.google.common.base.Preconditions;
+
 import net.minecraft.client.KeyMapping;
+import net.minecraftforge.client.ClientRegistry;
 
 public enum KeyBinds {
     CONFIG_KEY(null),
@@ -23,5 +28,9 @@ public enum KeyBinds {
 
     public KeyMapping getKeyBind(){return this.keyBind;}
 
-    public void setKeyBind(KeyMapping newKeyBind){this.keyBind = newKeyBind;}
+	public void setKeyBind(KeyMapping newKeyBind) {
+		Preconditions.checkArgument(this.keyBind == null, "Cannot reassign KeyMapping field");
+		this.keyBind = newKeyBind;
+		ClientRegistry.registerKeyBinding(this.keyBind);
+	}
 }

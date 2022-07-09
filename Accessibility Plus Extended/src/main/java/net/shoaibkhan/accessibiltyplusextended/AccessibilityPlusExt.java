@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.platform.InputConstants;
-import io.github.cottonmc.cotton.gui.widget.data.Color;
+
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraftforge.fml.common.Mod;
 import net.shoaibkhan.accessibiltyplusextended.keyboard.KeyboardController;
 import net.shoaibkhan.accessibiltyplusextended.util.KeyBinds;
 
-public class modInit implements ClientModInitializer {
+@Mod("accessibility_plus_extended")
+public class AccessibilityPlusExt {
 	HudRenderCallBackClass hudRenderCallBackClass;
 	public static Map<String, Integer> mainThreadMap;
 	private static CustomWait mainThreadCustomWait;
@@ -40,19 +42,19 @@ public class modInit implements ClientModInitializer {
 	}
 
 	private void initializeKeyBinds() {
-		KeyBinds.CONFIG_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("gui.apextended.config.ext.title", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, "key.categories.apextended.general")));
-		KeyBinds.LockEntityKey.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.lockEntity", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Y, "key.categories.apextended.general")));
-		KeyBinds.AP_CONFIG_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.config", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, "key.categories.apextended.general")));
+		KeyBinds.CONFIG_KEY.setKeyBind(new KeyMapping("gui.apextended.config.ext.title", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, "key.categories.apextended.general"));
+		KeyBinds.LockEntityKey.setKeyBind(new KeyMapping("key.apextended.lockEntity", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Y, "key.categories.apextended.general"));
+		KeyBinds.AP_CONFIG_KEY.setKeyBind(new KeyMapping("key.apextended.config", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, "key.categories.apextended.general"));
 
-		KeyBinds.LEFT_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.left", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.RIGHT_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.right", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.UP_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.up", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.DOWN_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.down", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.GROUP_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.group", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_TAB, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.HOME_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.home", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_HOME, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.END_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.end", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_END, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.CLICK_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.mouseclick", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.apextended.inventorycontrol")));
-		KeyBinds.RIGHT_CLICK_KEY.setKeyBind(KeyBindingHelper.registerKeyBinding(new KeyMapping("key.apextended.mouserightclick", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.categories.apextended.inventorycontrol")));
+		KeyBinds.LEFT_KEY.setKeyBind(new KeyMapping("key.apextended.left", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.RIGHT_KEY.setKeyBind(new KeyMapping("key.apextended.right", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.UP_KEY.setKeyBind(new KeyMapping("key.apextended.up", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.DOWN_KEY.setKeyBind(new KeyMapping("key.apextended.down", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.GROUP_KEY.setKeyBind(new KeyMapping("key.apextended.group", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_TAB, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.HOME_KEY.setKeyBind(new KeyMapping("key.apextended.home", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_HOME, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.END_KEY.setKeyBind(new KeyMapping("key.apextended.end", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_END, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.CLICK_KEY.setKeyBind(new KeyMapping("key.apextended.mouseclick", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.apextended.inventorycontrol"));
+		KeyBinds.RIGHT_CLICK_KEY.setKeyBind(new KeyMapping("key.apextended.mouserightclick", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_X, "key.categories.apextended.inventorycontrol"));
 	}
 	public static int colors(String c, int o) {
 		c = c.trim().toLowerCase();

@@ -1,7 +1,7 @@
 package net.shoaibkhan.accessibiltyplusextended.features.withThreads;
 
 import java.util.TreeMap;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -69,32 +69,32 @@ public class POIEntities extends Thread {
 
 					} else if (i instanceof AgeableMob) {
 						passiveEntity.put(distance, i);
-						if (!modInit.mainThreadMap.containsKey("passiveentity+" + entityString) && volume>0) {
+						if (!AccessibilityPlusExt.mainThreadMap.containsKey("passiveentity+" + entityString) && volume>0) {
 							client.level.playLocalSound(blockPos, SoundEvents.NOTE_BLOCK_BELL, SoundSource.BLOCKS,
 									volume, 0f, true);
-							modInit.mainThreadMap.put("passiveentity+" + entityString, delay);
+							AccessibilityPlusExt.mainThreadMap.put("passiveentity+" + entityString, delay);
 						}
 					} else if (i instanceof Monster) {
 						hostileEntity.put(distance, i);
-						if (!modInit.mainThreadMap.containsKey("hostileentity+" + entityString) && volume>0) {
+						if (!AccessibilityPlusExt.mainThreadMap.containsKey("hostileentity+" + entityString) && volume>0) {
 							client.level.playLocalSound(blockPos, SoundEvents.NOTE_BLOCK_BELL, SoundSource.BLOCKS,
 									volume, 2f, true);
-							modInit.mainThreadMap.put("hostileentity+" + entityString, delay);
+							AccessibilityPlusExt.mainThreadMap.put("hostileentity+" + entityString, delay);
 						}
 					} else if (i instanceof ItemEntity) {
 						if (i.isOnGround()) {
-							if (!modInit.mainThreadMap.containsKey("itementity+" + i) && volume>0) {
+							if (!AccessibilityPlusExt.mainThreadMap.containsKey("itementity+" + i) && volume>0) {
 								client.level.playLocalSound(blockPos, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
 										SoundSource.BLOCKS, volume, 2f, true);
-								modInit.mainThreadMap.put("itementity+" + i, delay);
+								AccessibilityPlusExt.mainThreadMap.put("itementity+" + i, delay);
 							}
 						}
 					} else if (i instanceof Player) {
 						passiveEntity.put(distance, i);
-						if (!modInit.mainThreadMap.containsKey("passiveentity+" + entityString) && volume>0) {
+						if (!AccessibilityPlusExt.mainThreadMap.containsKey("passiveentity+" + entityString) && volume>0) {
 							client.level.playLocalSound(blockPos, SoundEvents.NOTE_BLOCK_BELL, SoundSource.BLOCKS,
 									volume, 0f, true);
-							modInit.mainThreadMap.put("passiveentity+" + entityString, delay);
+							AccessibilityPlusExt.mainThreadMap.put("passiveentity+" + entityString, delay);
 						}
 					}
 				}

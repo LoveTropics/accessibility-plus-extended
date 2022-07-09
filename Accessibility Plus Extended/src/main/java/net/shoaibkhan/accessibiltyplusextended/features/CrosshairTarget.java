@@ -11,7 +11,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 
@@ -50,7 +50,7 @@ public class CrosshairTarget {
 					boolean isSign = blockState.is(BlockTags.SIGNS);
 
 					if (!isSign && Config.get(ConfigKeys.READ_BLOCKS_KEY.getKey())) {
-						if (!modInit.mainThreadMap.containsKey(searchQuery) && !blockEntries.equalsIgnoreCase(LockingHandler.lockedOnBlockEntries)) {
+						if (!AccessibilityPlusExt.mainThreadMap.containsKey(searchQuery) && !blockEntries.equalsIgnoreCase(LockingHandler.lockedOnBlockEntries)) {
 							text += name;
 
 							if (Config.get(ConfigKeys.NARRATE_BLOCK_SIDE_KEY.getKey())) {
@@ -59,11 +59,11 @@ public class CrosshairTarget {
 							}
 
 							NarratorPlus.narrate(text);
-							modInit.mainThreadMap.put(searchQuery, 5000);
+							AccessibilityPlusExt.mainThreadMap.put(searchQuery, 5000);
 						}
 					}
 					if (isSign && Config.get(ConfigKeys.READ_SIGNS_CONTENTS.getKey())) {
-						if (!modInit.mainThreadMap.containsKey(searchQuery)) {
+						if (!AccessibilityPlusExt.mainThreadMap.containsKey(searchQuery)) {
 							String output = "";
 							try {
 								SignBlockEntity signentity = (SignBlockEntity) client.level
@@ -87,7 +87,7 @@ public class CrosshairTarget {
 							} finally {
                                 if (!output.isEmpty())
                                     NarratorPlus.narrate(output);
-								modInit.mainThreadMap.put(searchQuery, 10000);
+								AccessibilityPlusExt.mainThreadMap.put(searchQuery, 10000);
 							}
 						}
 					}
@@ -102,9 +102,9 @@ public class CrosshairTarget {
 						if (((EntityHitResult) hit).getEntity() == LockingHandler.lockedOnEntity)
 							break;
 
-						if (!modInit.mainThreadMap.containsKey("entity_narrator_key")) {
+						if (!AccessibilityPlusExt.mainThreadMap.containsKey("entity_narrator_key")) {
 							NarratorPlus.narrate(entityHitResult.getEntity().getName().getString());
-							modInit.mainThreadMap.put("entity_narrator_key", 5000);
+							AccessibilityPlusExt.mainThreadMap.put("entity_narrator_key", 5000);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();

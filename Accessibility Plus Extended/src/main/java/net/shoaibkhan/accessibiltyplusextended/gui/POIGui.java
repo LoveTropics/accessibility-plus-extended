@@ -6,7 +6,7 @@ import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
-import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.shoaibkhan.accessibiltyplusextended.AccessibilityPlusExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TextComponent;
@@ -65,11 +65,11 @@ public class POIGui extends LightweightGuiDescription {
     done.setOnClick(this::onDoneClick);
     root.add(done, 12, 15, 7, 1);
 
-    WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.poisettings"), modInit.colors("red", 100));
+    WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.poisettings"), AccessibilityPlusExt.colors("red", 100));
     label.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(label, 0, 1, 21, 1);
 
-    WLabel fakeLabel = new WLabel(TextComponent.EMPTY, modInit.colors("red", 100));
+    WLabel fakeLabel = new WLabel(TextComponent.EMPTY, AccessibilityPlusExt.colors("red", 100));
     fakeLabel.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(fakeLabel, 0, 16, 21, 1);
 
@@ -88,6 +88,6 @@ public class POIGui extends LightweightGuiDescription {
 
   @Override
   public void addPainters() {
-    this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(modInit.colors("lightgrey", 50)));
+    this.rootPanel.setBackgroundPainter(BackgroundPainter.createColorful(AccessibilityPlusExt.colors("lightgrey", 50)));
   }
 }
