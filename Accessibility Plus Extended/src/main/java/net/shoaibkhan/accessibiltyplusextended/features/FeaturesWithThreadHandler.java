@@ -1,7 +1,7 @@
 package net.shoaibkhan.accessibiltyplusextended.features;
 
-import net.minecraft.client.MinecraftClient;
 import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.minecraft.client.Minecraft;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 import net.shoaibkhan.accessibiltyplusextended.features.withThreads.DurabilityThread;
@@ -16,15 +16,15 @@ public class FeaturesWithThreadHandler {
 	private static POIEntities poiEntities = new POIEntities();
 	private static POIBlocks poiBlocks = new POIBlocks();
 	public static int fallDetectorFlag = 0;
-	private final MinecraftClient client;
+	private final Minecraft client;
 
-	public FeaturesWithThreadHandler(MinecraftClient client) {
+	public FeaturesWithThreadHandler(Minecraft client) {
 		this.client = client;
 		this.main();
 	}
 
 	private void main() {
-		if (!client.isPaused() && (client.currentScreen == null)) {
+		if (!client.isPaused() && (client.screen == null)) {
 
 			// Read Crosshair
 			if (10000 - fallDetectorFlag >= 3000 && (Config.get(ConfigKeys.READ_BLOCKS_KEY.getKey()) || Config.get(ConfigKeys.ENTITY_NARRATOR_KEY.getKey()))) {

@@ -5,16 +5,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.network.chat.Component;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public class ActionbarInject {
     @Inject(at = @At("HEAD"), method = "setOverlayMessage(Lnet/minecraft/text/Text;Z)V")
-    public void speakActionbar(Text message, boolean tinted, CallbackInfo ci) {
+    public void speakActionbar(Component message, boolean tinted, CallbackInfo ci) {
         if(Config.get(ConfigKeys.ATION_BAR_KEY.getKey())){
             NarratorPlus.narrate(message.getString());
         }

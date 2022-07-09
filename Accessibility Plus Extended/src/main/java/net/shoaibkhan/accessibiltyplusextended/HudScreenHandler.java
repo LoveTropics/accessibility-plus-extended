@@ -3,14 +3,13 @@ package net.shoaibkhan.accessibiltyplusextended;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.CraftingScreen;
-import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
-import net.minecraft.client.gui.screen.ingame.MerchantScreen;
-import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
-import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.CraftingScreen;
+import net.minecraft.client.gui.screens.inventory.EnchantmentScreen;
+import net.minecraft.client.gui.screens.inventory.MerchantScreen;
+import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
+import net.minecraft.world.inventory.RecipeBookType;
 
 public class HudScreenHandler {
   private int minColumn;
@@ -60,14 +59,14 @@ public class HudScreenHandler {
 	}
 
   private void stonecutterScreen(Screen screen) {
-    MinecraftClient client = MinecraftClient.getInstance();
+    Minecraft client = Minecraft.getInstance();
     try {
-      minColumn = (int) (client.getWindow().getWidth() * 0.4409);
-      differenceColumn = (int) (client.getWindow().getWidth() * 0.0347) + (int) ((double) (480 - screen.width) / 8);
+      minColumn = (int) (client.getWindow().getScreenWidth() * 0.4409);
+      differenceColumn = (int) (client.getWindow().getScreenWidth() * 0.0347) + (int) ((double) (480 - screen.width) / 8);
       maxColumn = minColumn + (3 * differenceColumn);
 
-      minRow = (int) (client.getWindow().getHeight() * 0.3);
-      differenceRow = (int) (client.getWindow().getHeight() * 0.0666) + (int) ((double) (300 - screen.height) / 10);
+      minRow = (int) (client.getWindow().getScreenHeight() * 0.3);
+      differenceRow = (int) (client.getWindow().getScreenHeight() * 0.0666) + (int) ((double) (300 - screen.height) / 10);
       maxRow = minRow + (2 * differenceRow);
 
       windowPosX = client.getWindow().getX();
@@ -145,14 +144,14 @@ public class HudScreenHandler {
   }
 
   private void tradingScreen(Screen screen) {
-    MinecraftClient client = MinecraftClient.getInstance();
+    Minecraft client = Minecraft.getInstance();
     try {
-      minColumn = (int) (client.getWindow().getWidth() * 0.25347222);
-      differenceColumn = (int) (client.getWindow().getWidth() * 0.0625) + (int) ((double) (480 - screen.width) / 8);
+      minColumn = (int) (client.getWindow().getScreenWidth() * 0.25347222);
+      differenceColumn = (int) (client.getWindow().getScreenWidth() * 0.0625) + (int) ((double) (480 - screen.width) / 8);
       maxColumn = minColumn + (2 * differenceColumn);
 
-      minRow = (int) (client.getWindow().getHeight() * 0.32222);
-      differenceRow = (int) (client.getWindow().getHeight() * 0.066667) + (int) ((double) (300 - screen.height) / 10);
+      minRow = (int) (client.getWindow().getScreenHeight() * 0.32222);
+      differenceRow = (int) (client.getWindow().getScreenHeight() * 0.066667) + (int) ((double) (300 - screen.height) / 10);
       maxRow = minRow + (6 * differenceRow);
 
       windowPosX = client.getWindow().getX();
@@ -256,26 +255,26 @@ public class HudScreenHandler {
     if (screen instanceof CraftingScreen)
       isCraftingOpen = true;
 
-    MinecraftClient client = MinecraftClient.getInstance();
-    client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING);
-    client.player.getRecipeBook().isFilteringCraftable(RecipeBookCategory.CRAFTING);
+    Minecraft client = Minecraft.getInstance();
+    client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING);
+    client.player.getRecipeBook().isFiltering(RecipeBookType.CRAFTING);
 
     if (HudRenderCallBackClass.isTPressed && !isSearchingRecipies
-        && client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING))
+        && client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING))
       isSearchingRecipies = true;
 
-    nextX = (int) (client.getWindow().getWidth() * 0.368055556);
-    nextY = (int) (client.getWindow().getHeight() * 0.705555556);
+    nextX = (int) (client.getWindow().getScreenWidth() * 0.368055556);
+    nextY = (int) (client.getWindow().getScreenHeight() * 0.705555556);
 
-    prevX = (int) (client.getWindow().getWidth() * 0.263888889);
-    prevY = (int) (client.getWindow().getHeight() * 0.705555556);
+    prevX = (int) (client.getWindow().getScreenWidth() * 0.263888889);
+    prevY = (int) (client.getWindow().getScreenHeight() * 0.705555556);
 
-    minColumn = (int) (client.getWindow().getWidth() * 0.215277778);
-    differenceColumn = (int) (client.getWindow().getWidth() * 0.052083333) + (int) ((double) (480 - screen.width) / 8);
+    minColumn = (int) (client.getWindow().getScreenWidth() * 0.215277778);
+    differenceColumn = (int) (client.getWindow().getScreenWidth() * 0.052083333) + (int) ((double) (480 - screen.width) / 8);
     maxColumn = minColumn + (4 * differenceColumn);
 
-    minRow = (int) (client.getWindow().getHeight() * 0.366666667);
-    differenceRow = (int) (client.getWindow().getHeight() * 0.088888889) + (int) ((double) (300 - screen.height) / 10);
+    minRow = (int) (client.getWindow().getScreenHeight() * 0.366666667);
+    differenceRow = (int) (client.getWindow().getScreenHeight() * 0.088888889) + (int) ((double) (300 - screen.height) / 10);
     maxRow = minRow + (3 * differenceRow);
 
     windowPosX = client.getWindow().getX();
@@ -284,24 +283,24 @@ public class HudScreenHandler {
     hudScreenOffsetX = (int) ((double) (480 - screen.width) / 2);
     hudScreenOffsetY = (int) ((double) (300 - screen.height) / 3);
 
-    filteringX = (int) (client.getWindow().getWidth() * 0.416666667) + (hudScreenOffsetX / 2);
-    filteringY = (int) (client.getWindow().getHeight() * 0.288888889) - (hudScreenOffsetY / 2);
+    filteringX = (int) (client.getWindow().getScreenWidth() * 0.416666667) + (hudScreenOffsetX / 2);
+    filteringY = (int) (client.getWindow().getScreenHeight() * 0.288888889) - (hudScreenOffsetY / 2);
 
     if (isCraftingOpen) {
-      if (client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
-        recipeBookX = (int) (client.getWindow().getWidth() * 0.506944444) + (hudScreenOffsetX / 2);
-        recipeBookY = (int) (client.getWindow().getHeight() * 0.366666667);
+      if (client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
+        recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.506944444) + (hudScreenOffsetX / 2);
+        recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.366666667);
       } else {
-        recipeBookX = (int) (client.getWindow().getWidth() * 0.347222222);
-        recipeBookY = (int) (client.getWindow().getHeight() * 0.366666667);
+        recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.347222222);
+        recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.366666667);
       }
     } else {
-      if (client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
-        recipeBookX = (int) (client.getWindow().getWidth() * 0.715277778) + (hudScreenOffsetX) + (hudScreenOffsetX / 2);
-        recipeBookY = (int) (client.getWindow().getHeight() * 0.455555556) + (hudScreenOffsetY / 2);
+      if (client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
+        recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.715277778) + (hudScreenOffsetX) + (hudScreenOffsetX / 2);
+        recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.455555556) + (hudScreenOffsetY / 2);
       } else {
-        recipeBookX = (int) (client.getWindow().getWidth() * 0.555555556) + (hudScreenOffsetX) + (hudScreenOffsetX / 2);
-        recipeBookY = (int) (client.getWindow().getHeight() * 0.455555556) + (hudScreenOffsetY / 2);
+        recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.555555556) + (hudScreenOffsetX) + (hudScreenOffsetX / 2);
+        recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.455555556) + (hudScreenOffsetY / 2);
       }
     }
 
@@ -371,7 +370,7 @@ public class HudScreenHandler {
 
         // R Pressed :- Next Page
         if (!modInit.mainThreadMap.containsKey("crafting_table_scrolled_screen")
-            && HudRenderCallBackClass.isRPressed && client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
+            && HudRenderCallBackClass.isRPressed && client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
           robot.mouseMove(nextX + windowPosX - hudScreenOffsetX + (hudScreenOffsetX / 2),
               nextY + windowPosY + hudScreenOffsetY);
           robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
@@ -381,7 +380,7 @@ public class HudScreenHandler {
 
         // F Pressed :- Prev Page
         if (!modInit.mainThreadMap.containsKey("crafting_table_scrolled_screen")
-            && HudRenderCallBackClass.isFPressed && client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
+            && HudRenderCallBackClass.isFPressed && client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
           robot.mouseMove(prevX + windowPosX - hudScreenOffsetX, prevY + windowPosY + hudScreenOffsetY);
           robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
           robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
@@ -394,22 +393,22 @@ public class HudScreenHandler {
           robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
           robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
           if (isCraftingOpen) {
-            if (!client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
-              recipeBookX = (int) (client.getWindow().getWidth() * 0.506944444) + (hudScreenOffsetX / 2);
-              recipeBookY = (int) (client.getWindow().getHeight() * 0.366666667);
+            if (!client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
+              recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.506944444) + (hudScreenOffsetX / 2);
+              recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.366666667);
             } else {
-              recipeBookX = (int) (client.getWindow().getWidth() * 0.347222222);
-              recipeBookY = (int) (client.getWindow().getHeight() * 0.366666667);
+              recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.347222222);
+              recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.366666667);
             }
           } else {
-            if (!client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
-              recipeBookX = (int) (client.getWindow().getWidth() * 0.715277778) + (hudScreenOffsetX)
+            if (!client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
+              recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.715277778) + (hudScreenOffsetX)
                   + (hudScreenOffsetX / 2);
-              recipeBookY = (int) (client.getWindow().getHeight() * 0.455555556) + (hudScreenOffsetY / 2);
+              recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.455555556) + (hudScreenOffsetY / 2);
             } else {
-              recipeBookX = (int) (client.getWindow().getWidth() * 0.555555556) + (hudScreenOffsetX)
+              recipeBookX = (int) (client.getWindow().getScreenWidth() * 0.555555556) + (hudScreenOffsetX)
                   + (hudScreenOffsetX / 2);
-              recipeBookY = (int) (client.getWindow().getHeight() * 0.455555556) + (hudScreenOffsetY / 2);
+              recipeBookY = (int) (client.getWindow().getScreenHeight() * 0.455555556) + (hudScreenOffsetY / 2);
             }
           }
 
@@ -417,12 +416,12 @@ public class HudScreenHandler {
 
           modInit.mainThreadMap.put("space_pressed", 200);
           NarratorPlus.narrate("Recipe Book "
-              + (!(client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) ? "on" : "off"));
+              + (!(client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) ? "on" : "off"));
         }
 
         // v Pressed :- Enable/Disable Show All
         if (!modInit.mainThreadMap.containsKey("filtering_pressed") && HudRenderCallBackClass.isVPressed
-            && client.player.getRecipeBook().isGuiOpen(RecipeBookCategory.CRAFTING)) {
+            && client.player.getRecipeBook().isOpen(RecipeBookType.CRAFTING)) {
           robot.mouseMove(filteringX + windowPosX - hudScreenOffsetX, filteringY + windowPosY - hudScreenOffsetY);
           robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
           robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
@@ -451,8 +450,8 @@ public class HudScreenHandler {
           hudScreenOffsetX = (int) ((double) (480 - screen.width) / 2);
           hudScreenOffsetY = (int) ((double) (300 - screen.height) / 3);
 
-          int closeSearchX = (int) (client.getWindow().getWidth() * 0.194444444);
-          int closeSearchY = (int) (client.getWindow().getHeight() * 0.277777778) - (hudScreenOffsetY / 2);
+          int closeSearchX = (int) (client.getWindow().getScreenWidth() * 0.194444444);
+          int closeSearchY = (int) (client.getWindow().getScreenHeight() * 0.277777778) - (hudScreenOffsetY / 2);
 
           robot.mouseMove(closeSearchX + windowPosX - hudScreenOffsetX, closeSearchY + windowPosY - hudScreenOffsetY);
           robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
@@ -467,12 +466,12 @@ public class HudScreenHandler {
   }
 
   private void enchantingScreen(Screen screen) {
-    MinecraftClient client = MinecraftClient.getInstance();
+    Minecraft client = Minecraft.getInstance();
     try {
-      minColumn = (int) (client.getWindow().getWidth() * 0.555555556);
+      minColumn = (int) (client.getWindow().getScreenWidth() * 0.555555556);
 
-      minRow = (int) (client.getWindow().getHeight() * 0.3);
-      differenceRow = (int) (client.getWindow().getHeight() * 0.066666667)
+      minRow = (int) (client.getWindow().getScreenHeight() * 0.3);
+      differenceRow = (int) (client.getWindow().getScreenHeight() * 0.066666667)
           + (int) ((double) (300 - screen.height) / 10);
       maxRow = minRow + (2 * differenceRow);
 

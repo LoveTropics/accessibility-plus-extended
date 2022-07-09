@@ -6,14 +6,14 @@ import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 
 public class AccessibilityPlusConfigGui extends LightweightGuiDescription {
-    private ClientPlayerEntity player;
+    private LocalPlayer player;
 
-    public AccessibilityPlusConfigGui(ClientPlayerEntity player) {
+    public AccessibilityPlusConfigGui(LocalPlayer player) {
         this.player = player;
         WGridPanel root = new WGridPanel();
 
@@ -35,11 +35,11 @@ public class AccessibilityPlusConfigGui extends LightweightGuiDescription {
         ConfigButton actionBarButton = new ConfigButton("gui.apextended.config.buttons.actionbar", ConfigKeys.ATION_BAR_KEY.getKey());
         root.add(actionBarButton, 0, 3, 10, 1);
 
-        WButton doneButton = new WButton(new TranslatableText("gui.apextended.config.buttons.done"));
+        WButton doneButton = new WButton(new TranslatableComponent("gui.apextended.config.buttons.done"));
         doneButton.setOnClick(this::onDoneClick);
         root.add(doneButton, 7, 8, 7, 1);
 
-        WLabel label = new WLabel(new TranslatableText("gui.apextended.config.title"), 0xFFFFFF);
+        WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.title"), 0xFFFFFF);
         label.setHorizontalAlignment(HorizontalAlignment.CENTER);
         root.add(label, 0, 0, 21, 1);
 
@@ -47,7 +47,7 @@ public class AccessibilityPlusConfigGui extends LightweightGuiDescription {
     }
 
     private void onDoneClick() {
-        this.player.closeScreen();
+        this.player.clientSideCloseContainer();
 
     }
 

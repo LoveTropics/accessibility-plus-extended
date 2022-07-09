@@ -2,9 +2,9 @@ package net.shoaibkhan.accessibiltyplusextended.gui;
 
 import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.data.InputResult;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 
 public class ArrayButton extends WButton {
@@ -33,15 +33,15 @@ public class ArrayButton extends WButton {
 		return InputResult.PROCESSED;
 	}
 
-	private static MutableText generateTitle(String translateKey, String jsonKey, Object[] array) {
+	private static MutableComponent generateTitle(String translateKey, String jsonKey, Object[] array) {
 		Object o = array[Config.getInt(jsonKey)];
 		String translatedOption;
 		if (o instanceof CharSequence) {
-			translatedOption = I18n.translate("gui.apextended.config.buttons." + o);
+			translatedOption = I18n.get("gui.apextended.config.buttons." + o);
 		} else {
 			translatedOption = "" + o;
 		}
-		return new TranslatableText(translateKey, translatedOption);
+		return new TranslatableComponent(translateKey, translatedOption);
 	}
 
  //1.16

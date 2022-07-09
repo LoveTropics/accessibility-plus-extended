@@ -1,15 +1,15 @@
 package net.shoaibkhan.accessibiltyplusextended;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 import net.shoaibkhan.accessibiltyplusextended.features.FeaturesWithThreadHandler;
@@ -20,7 +20,7 @@ import net.shoaibkhan.accessibiltyplusextended.gui.ConfigScreen;
 import net.shoaibkhan.accessibiltyplusextended.util.KeyBinds;
 
 public class HudRenderCallBackClass {
-	private MinecraftClient client;
+	private Minecraft client;
 	public static int entityNarratorFlag = 0, oreDetectorFlag = 0;
 	public static boolean isTradeScreenOpen = false;
 	public static boolean isAltPressed, isControlPressed, isDPressed, isAPressed, isWPressed, isSPressed, isRPressed,
@@ -34,8 +34,8 @@ public class HudRenderCallBackClass {
 		HudRenderCallback.EVENT.register(this::hudRenderCallbackEventMethod);
 	}
 
-	private void hudRenderCallbackEventMethod(MatrixStack matixStack, float f) {
-		this.client = MinecraftClient.getInstance();
+	private void hudRenderCallbackEventMethod(PoseStack matixStack, float f) {
+		this.client = Minecraft.getInstance();
 		if (client.player == null)
 			return;
 
@@ -53,24 +53,24 @@ public class HudRenderCallBackClass {
 
 		if (Config.get(ConfigKeys.INV_KEYBOARD_CONTROL_KEY.getKey())) {
 
-			isDPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.d").getCode()));
-			isAPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.a").getCode()));
-			isWPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.w").getCode()));
-			isSPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.s").getCode()));
-			isRPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.r").getCode()));
-			isFPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.f").getCode()));
-			isCPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.c").getCode()));
-			isVPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.v").getCode()));
-			isTPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.t").getCode()));
-			isEnterPressed = (InputUtil.isKeyPressed(client.getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.enter").getCode()));
+			isDPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.d").getValue()));
+			isAPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.a").getValue()));
+			isWPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.w").getValue()));
+			isSPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.s").getValue()));
+			isRPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.r").getValue()));
+			isFPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.f").getValue()));
+			isCPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.c").getValue()));
+			isVPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.v").getValue()));
+			isTPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.t").getValue()));
+			isEnterPressed = (InputConstants.isKeyDown(client.getWindow().getWindow(), InputConstants.getKey("key.keyboard.enter").getValue()));
 
-			if (client.currentScreen == null) {
+			if (client.screen == null) {
 				currentColumn = 0;
 				currentRow = 0;
 				HudScreenHandler.isSearchingRecipies = false;
 				HudScreenHandler.bookPageIndex = 0;
 			} else {
-				Screen screen = client.currentScreen;
+				Screen screen = client.screen;
 				hudScreenHandler.screenHandler(screen);
 
 				// Reset lockOnBlock
@@ -82,11 +82,11 @@ public class HudRenderCallBackClass {
 	}
 
 	private void keyPresses() {
-		isAltPressed = (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.alt").getCode()) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.right.alt").getCode()));
-		isControlPressed = (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.control").getCode()) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.right.control").getCode()));
-		isShiftPressed = (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.left.shift").getCode()) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), InputUtil.fromTranslationKey("key.keyboard.right.shift").getCode()));
+		isAltPressed = (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.getKey("key.keyboard.left.alt").getValue()) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.getKey("key.keyboard.right.alt").getValue()));
+		isControlPressed = (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.getKey("key.keyboard.left.control").getValue()) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.getKey("key.keyboard.right.control").getValue()));
+		isShiftPressed = (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.getKey("key.keyboard.left.shift").getValue()) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.getKey("key.keyboard.right.shift").getValue()));
 
-		while (KeyBinds.CONFIG_KEY.getKeyBind().wasPressed()) {
+		while (KeyBinds.CONFIG_KEY.getKeyBind().consumeClick()) {
 			if (!isControlPressed) {
 				Screen screen = new ConfigScreen(new ConfigGui(client.player, client), "ext.title");
 				client.setScreen(screen);
@@ -94,18 +94,18 @@ public class HudRenderCallBackClass {
 			}
 		}
 
-		while (KeyBinds.AP_CONFIG_KEY.getKeyBind().wasPressed()) {
+		while (KeyBinds.AP_CONFIG_KEY.getKeyBind().consumeClick()) {
 			client.setScreen(new ConfigScreen(new AccessibilityPlusConfigGui(client.player), "title"));
 			return;
 		}
 
 	}
 
-	public static String get_position_difference(BlockPos blockPos, MinecraftClient client) {
-		ClientPlayerEntity player = client.player;
-		Direction dir = client.player.getHorizontalFacing();
+	public static String get_position_difference(BlockPos blockPos, Minecraft client) {
+		LocalPlayer player = client.player;
+		Direction dir = client.player.getDirection();
 
-		Vec3d diff = player.getEyePos().subtract(Vec3d.ofCenter(blockPos));
+		Vec3 diff = player.getEyePosition().subtract(Vec3.atCenterOf(blockPos));
 		BlockPos diffBlockPos = new BlockPos(Math.round(diff.x), Math.round(diff.y), Math.round(diff.z));
 
 		String diffXBlockPos = "";
@@ -149,6 +149,6 @@ public class HudRenderCallBackClass {
 	}
 
 	private static String diff(int blocks, String key1, String key2) {
-		return I18n.translate("narrate.apextended.posDiff." + (blocks < 0 ? key1 : key2), Math.abs(blocks));
+		return I18n.get("narrate.apextended.posDiff." + (blocks < 0 ? key1 : key2), Math.abs(blocks));
 	}
 }

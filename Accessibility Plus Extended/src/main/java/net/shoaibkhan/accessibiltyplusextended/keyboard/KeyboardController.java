@@ -5,16 +5,16 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import blue.endless.jankson.annotation.Nullable;
+import com.mojang.blaze3d.platform.InputConstants;
 import me.shedaniel.cloth.api.client.events.v0.ClothClientHooks;
 import me.shedaniel.cloth.api.client.events.v0.ScreenHooks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.TooltipFlag;
 import net.shoaibkhan.accessibiltyplusextended.HudScreenHandler;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
@@ -23,7 +23,7 @@ import net.shoaibkhan.accessibiltyplusextended.mixin.AccessorHandledScreen;
 import net.shoaibkhan.accessibiltyplusextended.util.KeyBinds;
 
 public class KeyboardController {
-  private static MinecraftClient client;
+  private static Minecraft client;
   @Nullable
   private static List<SlotsGroup> groups;
   @Nullable
@@ -57,7 +57,7 @@ public class KeyboardController {
     }
   }
 
-  private static ActionResult onScreenOpen(MinecraftClient mc, Screen currentScreen, ScreenHooks screenHooks) {
+  private static InteractionResult onScreenOpen(Minecraft mc, Screen currentScreen, ScreenHooks screenHooks) {
     client = mc;
     groups = null;
     screen = null;
@@ -69,46 +69,46 @@ public class KeyboardController {
       groups = SlotsGroup.generateGroupsFromSlots(screen.getHandler().slots);
       moveMouseToHome();
     }
-    return ActionResult.PASS;
+    return InteractionResult.PASS;
   }
 
-  private static ActionResult onKeyPress(MinecraftClient mc, Screen currentScreen, int keyCode, int scanCode,
+  private static InteractionResult onKeyPress(Minecraft mc, Screen currentScreen, int keyCode, int scanCode,
       int modifiers) {
     if (screen != null && Config.get(ConfigKeys.INV_KEYBOARD_CONTROL_KEY.getKey()) && !HudScreenHandler.isSearchingRecipies) {
-      if (KeyBinds.LEFT_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      if (KeyBinds.LEFT_KEY.getKeyBind().matches(keyCode, scanCode)) {
         focusSlotAt(FocusDirection.LEFT);
-      } else if (KeyBinds.RIGHT_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.RIGHT_KEY.getKeyBind().matches(keyCode, scanCode)) {
         focusSlotAt(FocusDirection.RIGHT);
-      } else if (KeyBinds.UP_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.UP_KEY.getKeyBind().matches(keyCode, scanCode)) {
         focusSlotAt(FocusDirection.UP);
-      } else if (KeyBinds.DOWN_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.DOWN_KEY.getKeyBind().matches(keyCode, scanCode)) {
         focusSlotAt(FocusDirection.DOWN);
-      } else if (KeyBinds.GROUP_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.GROUP_KEY.getKeyBind().matches(keyCode, scanCode)) {
         if (modifiers == GLFW.GLFW_MOD_SHIFT) {
           focusGroupVertically(false);
         } else {
           focusGroupVertically(true);
         }
-        return ActionResult.SUCCESS;
-      } else if (KeyBinds.HOME_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+        return InteractionResult.SUCCESS;
+      } else if (KeyBinds.HOME_KEY.getKeyBind().matches(keyCode, scanCode)) {
         if (modifiers == GLFW.GLFW_MOD_SHIFT) {
           focusEdgeGroup(false);
         } else {
           focusEdgeSlot(false);
         }
-      } else if (KeyBinds.END_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.END_KEY.getKeyBind().matches(keyCode, scanCode)) {
         if (modifiers == GLFW.GLFW_MOD_SHIFT) {
           focusEdgeGroup(true);
         } else {
           focusEdgeSlot(true);
         }
-      } else if (KeyBinds.CLICK_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.CLICK_KEY.getKeyBind().matches(keyCode, scanCode)) {
         click(false);
-      } else if (KeyBinds.RIGHT_CLICK_KEY.getKeyBind().matchesKey(keyCode, scanCode)) {
+      } else if (KeyBinds.RIGHT_CLICK_KEY.getKeyBind().matches(keyCode, scanCode)) {
         click(true);
       }
     }
-    return ActionResult.PASS;
+    return InteractionResult.PASS;
   }
 
   private static void focusSlotAt(FocusDirection direction) {
@@ -125,28 +125,28 @@ public class KeyboardController {
     switch (direction) {
       case UP:
         if (!currentGroup.hasSlotAbove(currentSlot)) {
-          NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.noSlots.above"));
+          NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.noSlots.above"));
           return;
         }
         targetDeltaY = -18;
         break;
       case DOWN:
         if (!currentGroup.hasSlotBelow(currentSlot)) {
-          NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.noSlots.below"));
+          NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.noSlots.below"));
           return;
         }
         targetDeltaY = 18;
         break;
       case LEFT:
         if (!currentGroup.hasSlotLeft(currentSlot)) {
-          NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.noSlots.left"));
+          NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.noSlots.left"));
           return;
         }
         targetDeltaX = -18;
         break;
       case RIGHT:
         if (!currentGroup.hasSlotRight(currentSlot)) {
-          NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.noSlots.right"));
+          NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.noSlots.right"));
           return;
         }
         targetDeltaX = 18;
@@ -169,11 +169,11 @@ public class KeyboardController {
     if (currentGroup.getSlotName(currentSlot).length() > 0) {
       message += currentGroup.getSlotName(currentSlot) + ". ";
     }
-    if (!currentSlot.hasStack()) {
-      message += I18n.translate("narrate.apextended.invcon.emptySlot");
+    if (!currentSlot.hasItem()) {
+      message += I18n.get("narrate.apextended.invcon.emptySlot");
     } else {
-      List<Text> lines = currentSlot.getStack().getTooltip(client.player, TooltipContext.Default.NORMAL);
-      for (Text line : lines) {
+      List<Component> lines = currentSlot.getItem().getTooltipLines(client.player, TooltipFlag.Default.NORMAL);
+      for (Component line : lines) {
         message += line.getString() + ", ";
       }
     }
@@ -188,7 +188,7 @@ public class KeyboardController {
       return;
     }
     if (currentGroup.slots.size() == 1 && currentSlot != null) {
-      NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.onlyOneSlot"));
+      NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.onlyOneSlot"));
       return;
     }
     focusSlot(end ? currentGroup.getLastSlot() : currentGroup.getFirstSlot());
@@ -205,10 +205,10 @@ public class KeyboardController {
       int currentGroupIndex = groups.indexOf(currentGroup);
       int nextGroupIndex = currentGroupIndex + (goBelow ? 1 : -1);
       if (nextGroupIndex < 0) {
-        NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.reachedTopGroup"));
+        NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.reachedTopGroup"));
         return;
       } else if (nextGroupIndex > groups.size() - 1) {
-        NarratorPlus.narrate(I18n.translate("narrate.apextended.invcon.reachedBottomGroup"));
+        NarratorPlus.narrate(I18n.get("narrate.apextended.invcon.reachedBottomGroup"));
         return;
       } else {
         focusGroup(groups.get(nextGroupIndex));
@@ -230,24 +230,24 @@ public class KeyboardController {
   }
 
   private static void click(boolean rightClick) {
-    double scale = client.getWindow().getScaleFactor();
-    double x = client.mouse.getX() / scale;
-    double y = client.mouse.getY() / scale;
+    double scale = client.getWindow().getGuiScale();
+    double x = client.mouseHandler.xpos() / scale;
+    double y = client.mouseHandler.ypos() / scale;
     int button = rightClick ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT;
-    client.currentScreen.mouseClicked(x, y, button);
-    client.currentScreen.mouseReleased(x, y, button);
+    client.screen.mouseClicked(x, y, button);
+    client.screen.mouseReleased(x, y, button);
     narrateCursorStack = true;
   }
 
 	private static void moveMouseTo(double x, double y) {
-		InputUtil.setCursorParameters(client.getWindow().getHandle(), GLFW.GLFW_CURSOR_NORMAL, x, y);
+		InputConstants.grabOrReleaseMouse(client.getWindow().getWindow(), GLFW.GLFW_CURSOR_NORMAL, x, y);
 		lastMouseX = (double) x;
 		lastMouseY = (double) y;
 	}
 
 	private static void moveMouseToScreenCoords(int x, int y) {
-		double targetX = (screen.getX() + x) * client.getWindow().getScaleFactor();
-		double targetY = (screen.getY() + y) * client.getWindow().getScaleFactor();
+		double targetX = (screen.getX() + x) * client.getWindow().getGuiScale();
+		double targetY = (screen.getY() + y) * client.getWindow().getGuiScale();
 		moveMouseTo(targetX, targetY);
 	}
 

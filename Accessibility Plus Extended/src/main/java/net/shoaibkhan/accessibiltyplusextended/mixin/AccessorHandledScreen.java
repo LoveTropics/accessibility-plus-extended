@@ -1,13 +1,12 @@
 package net.shoaibkhan.accessibiltyplusextended.mixin;
 
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-
-@Mixin(HandledScreen.class)
+@Mixin(AbstractContainerScreen.class)
 public interface AccessorHandledScreen {
     //
     @Accessor("playerInventoryTitleX")
@@ -23,7 +22,7 @@ public interface AccessorHandledScreen {
     int getY();
 
     @Accessor("handler")
-    ScreenHandler getHandler();
+    AbstractContainerMenu getHandler();
 
     @Accessor("focusedSlot")
     Slot getFocusedSlot();
