@@ -1,21 +1,21 @@
 package net.shoaibkhan.accessibiltyplusextended;
 
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.shoaibkhan.accessibiltyplusextended.features.withThreads.FluidDetectorThread;
 
 public class customCommands {
-  MinecraftClient client;
+  Minecraft client;
 
   public customCommands() {
       ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("getxp").executes(source -> {
-      client = MinecraftClient.getInstance();
+      client = Minecraft.getInstance();
       NarratorPlus.narrate(""+client.player.experienceLevel);
       return 1;
     }));
 
       ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("isfullscreen").executes(source -> {
-      client = MinecraftClient.getInstance();
+      client = Minecraft.getInstance();
       NarratorPlus.narrate(client.options.fullscreen);
       return 1;
     }));

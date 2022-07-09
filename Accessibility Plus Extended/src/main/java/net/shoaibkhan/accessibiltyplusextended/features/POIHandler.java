@@ -1,20 +1,19 @@
 package net.shoaibkhan.accessibiltyplusextended.features;
 
 import java.util.TreeMap;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 
 public class POIHandler {
-    public static TreeMap<Double, Vec3d> oreBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> doorBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> buttonBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> blocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> ladderBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> leverBlocks = new TreeMap<>();
-    public static TreeMap<Double, Vec3d> trapDoorBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> oreBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> doorBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> buttonBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> blocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> ladderBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> leverBlocks = new TreeMap<>();
+    public static TreeMap<Double, Vec3> trapDoorBlocks = new TreeMap<>();
     public static TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
     public static TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
     public static TreeMap<Double, Entity> eyeOfEnderEntity = new TreeMap<>();

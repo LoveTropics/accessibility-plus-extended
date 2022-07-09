@@ -3,16 +3,13 @@ package net.shoaibkhan.accessibiltyplusextended.keyboard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import net.minecraft.client.resource.language.I18n;
-// Inventories
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.CraftingResultInventory;
-// Slots
-import net.minecraft.screen.slot.FurnaceFuelSlot;
-import net.minecraft.screen.slot.FurnaceOutputSlot;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.FurnaceFuelSlot;
+import net.minecraft.world.inventory.FurnaceResultSlot;
+import net.minecraft.world.inventory.ResultContainer;
+import net.minecraft.world.inventory.Slot;
 import net.shoaibkhan.accessibiltyplusextended.mixin.AccessorSlot;
 
 public class SlotsGroup {
@@ -100,7 +97,7 @@ public class SlotsGroup {
         SlotsGroup hotbar = new SlotsGroup("hotbar", null);
         for (Slot s : slots) {
             int index = ((AccessorSlot) s).getInventoryIndex();
-            if (s.inventory instanceof PlayerInventory && index >= 0 && index <= 8) {
+            if (s.container instanceof Inventory && index >= 0 && index <= 8) {
                 hotbar.slots.add(s);
             }
         }
@@ -109,7 +106,7 @@ public class SlotsGroup {
         SlotsGroup playerInventory = new SlotsGroup("inventory", null);
         for (Slot s : slots) {
             int index = ((AccessorSlot) s).getInventoryIndex();
-            if (s.inventory instanceof PlayerInventory && index >= 9 && index <= 35) {
+            if (s.container instanceof Inventory && index >= 9 && index <= 35) {
                 playerInventory.slots.add(s);
             }
         }
@@ -118,7 +115,7 @@ public class SlotsGroup {
         SlotsGroup playerArmor = new SlotsGroup("armor", null);
         for (Slot s : slots) {
             int index = ((AccessorSlot) s).getInventoryIndex();
-            if (s.inventory instanceof PlayerInventory && index >= 36 && index <= 39) {
+            if (s.container instanceof Inventory && index >= 36 && index <= 39) {
                 playerArmor.slots.add(s);
             }
         }
@@ -127,7 +124,7 @@ public class SlotsGroup {
         SlotsGroup offHand = new SlotsGroup("off_hand", null);
         for (Slot s : slots) {
             int index = ((AccessorSlot) s).getInventoryIndex();
-            if (s.inventory instanceof PlayerInventory && index == 40) {
+            if (s.container instanceof Inventory && index == 40) {
                 offHand.slots.add(s);
                 break;
             }
@@ -156,12 +153,12 @@ public class SlotsGroup {
     }
 
     private void nameSlots() {
-        if (this.slots.get(0).inventory instanceof CraftingInventory) {
+        if (this.slots.get(0).container instanceof CraftingContainer) {
             int size = (int) Math.round(Math.sqrt(this.slots.size()));
             List<String> names = new ArrayList<String>();
             for (int row = 1; row <= size; row++) {
                 for (int column = 1; column <= size; column++) {
-                    names.add(I18n.translate("narrate.apextended.slot.crafting", row, column));
+                    names.add(I18n.get("narrate.apextended.slot.crafting", row, column));
                 }
             }
             for (int i = 0; i < this.slots.size(); i++) {
@@ -173,21 +170,21 @@ public class SlotsGroup {
     }
 
     public static String getInventoryName(Slot slot) {
-        if (slot.inventory instanceof CraftingResultInventory) {
+        if (slot.container instanceof ResultContainer) {
             return "crafting_output";
-        } else if (slot.inventory instanceof CraftingInventory) {
+        } else if (slot.container instanceof CraftingContainer) {
             return "crafting_input";
         }
 
         if (slot instanceof FurnaceFuelSlot) {
             return "fuel_input";
-        } else if (slot instanceof FurnaceOutputSlot) {
+        } else if (slot instanceof FurnaceResultSlot) {
             return "furnace_output";
         }
         return "group";
     }
 
     public String getName() {
-        return I18n.translate("narrate.apextended.slotGroup." + name);
+        return I18n.get("narrate.apextended.slotGroup." + name);
     }
 }

@@ -1,16 +1,16 @@
 package net.shoaibkhan.accessibiltyplusextended.features.withThreads;
 
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.Vec3;
 import net.shoaibkhan.accessibiltyplusextended.HudRenderCallBackClass;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
 import net.shoaibkhan.accessibiltyplusextended.config.Config;
@@ -27,8 +27,8 @@ public class FluidDetectorThread extends Thread{
     this.water = water;
   }
   public void run() {
-    MinecraftClient client = MinecraftClient.getInstance();
-    BlockPos pos = client.player.getBlockPos();
+    Minecraft client = Minecraft.getInstance();
+    BlockPos pos = client.player.blockPosition();
     int posX = pos.getX();
     int posY = pos.getY();
     int posZ = pos.getZ();
@@ -40,7 +40,7 @@ public class FluidDetectorThread extends Thread{
       rangeVal = 10;
     }
 
-    BlockPos newBlockPos = new BlockPos(new Vec3d(posX, posY, posZ));
+    BlockPos newBlockPos = new BlockPos(new Vec3(posX, posY, posZ));
     BlockPos fluidPos = findFluid(client, newBlockPos, rangeVal, this.lava, this.water);
     if(fluidPos!=null){
       if(!Config.get(ConfigKeys.FIND_FLUID_TEXT_KEY.getKey())){
@@ -57,13 +57,13 @@ public class FluidDetectorThread extends Thread{
             pit = 1f;
           }
 
-          client.world.playSound(fluidPos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, vol, pit, true);
+          client.level.playLocalSound(fluidPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, vol, pit, true);
 
         } catch (Exception e) {
         }
       }else{
         String posDifference = HudRenderCallBackClass.get_position_difference(fluidPos, client);
-        MutableText blockMutableText = client.world.getBlockState(fluidPos).getBlock().getName();
+        MutableComponent blockMutableText = client.level.getBlockState(fluidPos).getBlock().getName();
         String name = blockMutableText.getString();
     
 //        client.player.sendMessage(new LiteralText(""+name+", "+posDifference), true);
@@ -72,25 +72,25 @@ public class FluidDetectorThread extends Thread{
     }
   }
 
-  private static BlockPos findFluid(MinecraftClient client, BlockPos blockPos, int range, boolean lava, boolean water){
-    BlockState blockState = client.world.getBlockState(blockPos);
-    if (blockState.isOf(Blocks.VOID_AIR))
+  private static BlockPos findFluid(Minecraft client, BlockPos blockPos, int range, boolean lava, boolean water){
+    BlockState blockState = client.level.getBlockState(blockPos);
+    if (blockState.is(Blocks.VOID_AIR))
       return null;
 
-    FluidState fluidState = client.world.getFluidState(blockPos);
-    if ((fluidState.isIn(FluidTags.LAVA) && lava) || (fluidState.isIn(FluidTags.WATER) && water) && fluidState.getLevel()==8) {
+    FluidState fluidState = client.level.getFluidState(blockPos);
+    if ((fluidState.is(FluidTags.LAVA) && lava) || (fluidState.is(FluidTags.WATER) && water) && fluidState.getAmount()==8) {
       return blockPos;
     } else if(range-1 >= 0 && blockState.isAir()){
       int posX = blockPos.getX();
       int posY = blockPos.getY();
       int posZ = blockPos.getZ();
       int rangeVal = range-1;
-      BlockPos bp1 = findFluid(client, new BlockPos(new Vec3d(posX, posY, posZ - 1)), rangeVal, lava, water);
-      BlockPos bp2 = findFluid(client, new BlockPos(new Vec3d(posX, posY, posZ + 1)), rangeVal, lava, water);
-      BlockPos bp3 = findFluid(client, new BlockPos(new Vec3d(posX - 1, posY, posZ)), rangeVal, lava, water);
-      BlockPos bp4 = findFluid(client, new BlockPos(new Vec3d(posX + 1, posY, posZ)), rangeVal, lava, water);
-      BlockPos bp5 = findFluid(client, new BlockPos(new Vec3d(posX, posY - 1, posZ)), rangeVal, lava, water);
-      BlockPos bp6 = findFluid(client, new BlockPos(new Vec3d(posX, posY + 1, posZ)), rangeVal, lava, water);
+      BlockPos bp1 = findFluid(client, new BlockPos(new Vec3(posX, posY, posZ - 1)), rangeVal, lava, water);
+      BlockPos bp2 = findFluid(client, new BlockPos(new Vec3(posX, posY, posZ + 1)), rangeVal, lava, water);
+      BlockPos bp3 = findFluid(client, new BlockPos(new Vec3(posX - 1, posY, posZ)), rangeVal, lava, water);
+      BlockPos bp4 = findFluid(client, new BlockPos(new Vec3(posX + 1, posY, posZ)), rangeVal, lava, water);
+      BlockPos bp5 = findFluid(client, new BlockPos(new Vec3(posX, posY - 1, posZ)), rangeVal, lava, water);
+      BlockPos bp6 = findFluid(client, new BlockPos(new Vec3(posX, posY + 1, posZ)), rangeVal, lava, water);
 
       if(bp1 != null ) return bp1;
       if(bp2 != null ) return bp2;

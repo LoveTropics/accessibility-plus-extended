@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.inventory.Slot;
 
 @Environment(EnvType.CLIENT)
 @Mixin(Slot.class)

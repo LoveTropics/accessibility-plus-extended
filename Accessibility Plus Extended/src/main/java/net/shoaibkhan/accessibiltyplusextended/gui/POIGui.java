@@ -6,19 +6,19 @@ import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
 import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 import net.shoaibkhan.accessibiltyplusextended.features.POIHandler;
 
 public class POIGui extends LightweightGuiDescription {
-  private ClientPlayerEntity player;
-  private MinecraftClient client;
+  private LocalPlayer player;
+  private Minecraft client;
 
-  public POIGui(ClientPlayerEntity player, MinecraftClient client) {
+  public POIGui(LocalPlayer player, Minecraft client) {
     this.player = player;
     this.client = client;
     WGridPanel root = new WGridPanel();
@@ -57,19 +57,19 @@ public class POIGui extends LightweightGuiDescription {
     ArrayButton poiFluidDetectorDelay = new ArrayButton("gui.apextended.config.buttons.poifluiddetectordelay", ConfigKeys.POI_FLUID_DETECTOR_DELAY.getKey(), POIHandler.delay);
     root.add(poiFluidDetectorDelay, 12, 13, 10, 1);
 
-    WButton back = new WButton(new TranslatableText("gui.apextended.config.buttons.back"));
+    WButton back = new WButton(new TranslatableComponent("gui.apextended.config.buttons.back"));
     back.setOnClick(this::onBackClick);
     root.add(back, 2, 15, 7, 1);
 
-    WButton done = new WButton(new TranslatableText("gui.apextended.config.buttons.done"));
+    WButton done = new WButton(new TranslatableComponent("gui.apextended.config.buttons.done"));
     done.setOnClick(this::onDoneClick);
     root.add(done, 12, 15, 7, 1);
 
-    WLabel label = new WLabel(new TranslatableText("gui.apextended.config.buttons.poisettings"), modInit.colors("red", 100));
+    WLabel label = new WLabel(new TranslatableComponent("gui.apextended.config.buttons.poisettings"), modInit.colors("red", 100));
     label.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(label, 0, 1, 21, 1);
 
-    WLabel fakeLabel = new WLabel(LiteralText.EMPTY, modInit.colors("red", 100));
+    WLabel fakeLabel = new WLabel(TextComponent.EMPTY, modInit.colors("red", 100));
     fakeLabel.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(fakeLabel, 0, 16, 21, 1);
 
@@ -77,11 +77,11 @@ public class POIGui extends LightweightGuiDescription {
   }
 
   private void onDoneClick() {
-    this.player.closeScreen();
+    this.player.clientSideCloseContainer();
   }
 
   private void onBackClick() {
-    this.player.closeScreen();
+    this.player.clientSideCloseContainer();
     this.client.setScreen(new ConfigScreen(new SettingsGui(player, client), "buttons.settings"));
 //    this.client.openScreen(new ConfigScreen(new SettingsGui(player, client), "settings", player));
   }

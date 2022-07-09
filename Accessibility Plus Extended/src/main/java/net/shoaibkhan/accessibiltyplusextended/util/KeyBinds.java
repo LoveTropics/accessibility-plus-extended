@@ -1,7 +1,6 @@
 package net.shoaibkhan.accessibiltyplusextended.util;
 
-//import net.minecraft.client.options.KeyBinding;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
 
 public enum KeyBinds {
     CONFIG_KEY(null),
@@ -17,12 +16,12 @@ public enum KeyBinds {
     CLICK_KEY(null),
     RIGHT_CLICK_KEY(null);
 
-    private KeyBinding keyBind;
+    private KeyMapping keyBind;
 
 
-    KeyBinds(KeyBinding keyBind) {this.keyBind = keyBind;}
+    KeyBinds(KeyMapping keyBind) {this.keyBind = keyBind;}
 
-    public KeyBinding getKeyBind(){return this.keyBind;}
+    public KeyMapping getKeyBind(){return this.keyBind;}
 
-    public void setKeyBind(KeyBinding newKeyBind){this.keyBind = newKeyBind;}
+    public void setKeyBind(KeyMapping newKeyBind){this.keyBind = newKeyBind;}
 }

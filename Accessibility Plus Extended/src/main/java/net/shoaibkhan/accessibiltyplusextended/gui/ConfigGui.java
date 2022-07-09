@@ -6,19 +6,19 @@ import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.shoaibkhan.accessibiltyplusextended.NarratorPlus;
 import net.shoaibkhan.accessibiltyplusextended.modInit;
 import net.shoaibkhan.accessibiltyplusextended.config.ConfigKeys;
 
 public class ConfigGui extends LightweightGuiDescription {
-  private ClientPlayerEntity player;
-  private MinecraftClient client;
+  private LocalPlayer player;
+  private Minecraft client;
 
-  public ConfigGui(ClientPlayerEntity player, MinecraftClient client) {
+  public ConfigGui(LocalPlayer player, Minecraft client) {
     this.player = player;
     this.client = client;
     WGridPanel root = new WGridPanel();
@@ -43,18 +43,18 @@ public class ConfigGui extends LightweightGuiDescription {
     ArrayButton cnStatus = new ArrayButton("gui.apextended.config.buttons.chatnarration", ConfigKeys.CHAT_NARRATION.getKey(), NarratorPlus.chatOptions);
     root.add(cnStatus, 12, 7, 10, 1);
 
-    WButton settingsButton = new WButton(new TranslatableText("gui.apextended.config.buttons.settings"));
+    WButton settingsButton = new WButton(new TranslatableComponent("gui.apextended.config.buttons.settings"));
     settingsButton.setOnClick(this::onSettingsClick);
     root.add(settingsButton, 2, 9, 7, 1);
 
-    WButton doneButton = new WButton(new TranslatableText("gui.apextended.config.buttons.done"));
+    WButton doneButton = new WButton(new TranslatableComponent("gui.apextended.config.buttons.done"));
     doneButton.setOnClick(this::onDoneClick);
     root.add(doneButton, 12, 9, 7, 1);
 
-    WLabel label = new WLabel(new TranslatableText("gui.apextended"), modInit.colors("red", 100));
+    WLabel label = new WLabel(new TranslatableComponent("gui.apextended"), modInit.colors("red", 100));
     label.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(label, 0, 1, 21, 1);
-    WLabel fakeLabel = new WLabel(LiteralText.EMPTY, modInit.colors("red", 100));
+    WLabel fakeLabel = new WLabel(TextComponent.EMPTY, modInit.colors("red", 100));
     fakeLabel.setHorizontalAlignment(HorizontalAlignment.CENTER);
     root.add(fakeLabel, 0, 10, 21, 1);
 
@@ -62,11 +62,11 @@ public class ConfigGui extends LightweightGuiDescription {
   }
 
   private void onDoneClick() {
-    this.player.closeScreen();
+    this.player.clientSideCloseContainer();
   }
 
   private void onSettingsClick() {
-    this.player.closeScreen();
+    this.player.clientSideCloseContainer();
     this.client.setScreen(new ConfigScreen(new SettingsGui(client.player, client), "buttons.settings"));
 //    this.client.openScreen(new ConfigScreen(new SettingsGui(client.player, client), "Settings", player));
   }

@@ -5,10 +5,10 @@ import com.sun.jna.Native;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.NarratorManager;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.gui.chat.NarratorChatListener;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
 
 @Environment(EnvType.CLIENT)
 public class NarratorPlus {
@@ -50,7 +50,7 @@ public class NarratorPlus {
   }
 
   public static void narrate(boolean bool) {
-      narrate(I18n.translate("narrate.apextended." + bool));
+      narrate(I18n.get("narrate.apextended." + bool));
   }
 
   public static void narrate(String text) {
@@ -63,7 +63,7 @@ public class NarratorPlus {
 
       instance.nvda.nvdaController_speakText(ch);
     } else {
-      NarratorManager.INSTANCE.narrate(text);
+      NarratorChatListener.INSTANCE.sayNow(text);
     }
   }
 

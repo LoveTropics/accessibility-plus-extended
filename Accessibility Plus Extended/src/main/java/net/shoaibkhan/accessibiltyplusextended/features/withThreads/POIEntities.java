@@ -1,53 +1,52 @@
 package net.shoaibkhan.accessibiltyplusextended.features.withThreads;
 
 import java.util.TreeMap;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EyeOfEnderEntity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.shoaibkhan.accessibiltyplusextended.modInit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.EyeOfEnder;
+import net.minecraft.world.phys.Vec3;
 import net.shoaibkhan.accessibiltyplusextended.features.LockingHandler;
 import net.shoaibkhan.accessibiltyplusextended.features.POIHandler;
 
 public class POIEntities extends Thread {
-	private MinecraftClient client;
+	private Minecraft client;
 	private TreeMap<Double, Entity> passiveEntity = new TreeMap<>();
 	private TreeMap<Double, Entity> hostileEntity = new TreeMap<>();
 	private TreeMap<Double, Entity> eyeOfEnderEntity = new TreeMap<>();
 	public boolean running = false;
 
 	public void run() {
-		this.client = MinecraftClient.getInstance();
+		this.client = Minecraft.getInstance();
 		running = true;
 		this.main();
 	}
 
 	private void main() {
 		try {
-			for (Entity i : client.world.getEntities()) {
+			for (Entity i : client.level.entitiesForRendering()) {
 
 				// For curseforge
 //				 if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity))
 //				 continue;
 
 				// For discord
-				if (!(i instanceof MobEntity || i instanceof ItemEntity || i instanceof EyeOfEnderEntity || (i instanceof PlayerEntity && i != client.player)))
+				if (!(i instanceof Mob || i instanceof ItemEntity || i instanceof EyeOfEnder || (i instanceof Player && i != client.player)))
 					continue;
 
-				BlockPos blockPos = i.getBlockPos();
+				BlockPos blockPos = i.blockPosition();
 
-				Vec3d entityVec3d = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-				Vec3d playerVec3d = new Vec3d(client.player.getBlockPos().getX(), client.player.getBlockPos().getY(),
-						client.player.getBlockPos().getZ());
+				Vec3 entityVec3d = new Vec3(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+				Vec3 playerVec3d = new Vec3(client.player.blockPosition().getX(), client.player.blockPosition().getY(),
+						client.player.blockPosition().getZ());
 				Double distance = entityVec3d.distanceTo(playerVec3d);
 
 				int range = POIHandler.getRange();
@@ -60,7 +59,7 @@ public class POIEntities extends Thread {
 					int y = entityString.indexOf(",", z);
 					entityString = entityString.substring(z, y);
 
-					if (i instanceof EyeOfEnderEntity && distance <= 0.2) {
+					if (i instanceof EyeOfEnder && distance <= 0.2) {
 						eyeOfEnderEntity.put(distance, i);
 						LockingHandler.lockedOnEntity = i;
 						LockingHandler.lockedOnBlockEntries = "";
@@ -68,32 +67,32 @@ public class POIEntities extends Thread {
 						LockingHandler.lockedOnBlock = null;
 						LockingHandler.isLockedOntoLadder = false;
 
-					} else if (i instanceof PassiveEntity) {
+					} else if (i instanceof AgeableMob) {
 						passiveEntity.put(distance, i);
 						if (!modInit.mainThreadMap.containsKey("passiveentity+" + entityString) && volume>0) {
-							client.world.playSound(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS,
+							client.level.playLocalSound(blockPos, SoundEvents.NOTE_BLOCK_BELL, SoundSource.BLOCKS,
 									volume, 0f, true);
 							modInit.mainThreadMap.put("passiveentity+" + entityString, delay);
 						}
-					} else if (i instanceof HostileEntity) {
+					} else if (i instanceof Monster) {
 						hostileEntity.put(distance, i);
 						if (!modInit.mainThreadMap.containsKey("hostileentity+" + entityString) && volume>0) {
-							client.world.playSound(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS,
+							client.level.playLocalSound(blockPos, SoundEvents.NOTE_BLOCK_BELL, SoundSource.BLOCKS,
 									volume, 2f, true);
 							modInit.mainThreadMap.put("hostileentity+" + entityString, delay);
 						}
 					} else if (i instanceof ItemEntity) {
 						if (i.isOnGround()) {
 							if (!modInit.mainThreadMap.containsKey("itementity+" + i) && volume>0) {
-								client.world.playSound(blockPos, SoundEvents.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON,
-										SoundCategory.BLOCKS, volume, 2f, true);
+								client.level.playLocalSound(blockPos, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
+										SoundSource.BLOCKS, volume, 2f, true);
 								modInit.mainThreadMap.put("itementity+" + i, delay);
 							}
 						}
-					} else if (i instanceof PlayerEntity) {
+					} else if (i instanceof Player) {
 						passiveEntity.put(distance, i);
 						if (!modInit.mainThreadMap.containsKey("passiveentity+" + entityString) && volume>0) {
-							client.world.playSound(blockPos, SoundEvents.BLOCK_NOTE_BLOCK_BELL, SoundCategory.BLOCKS,
+							client.level.playLocalSound(blockPos, SoundEvents.NOTE_BLOCK_BELL, SoundSource.BLOCKS,
 									volume, 0f, true);
 							modInit.mainThreadMap.put("passiveentity+" + entityString, delay);
 						}
